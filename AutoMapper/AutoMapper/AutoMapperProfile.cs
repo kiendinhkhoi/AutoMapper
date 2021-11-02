@@ -10,14 +10,27 @@ namespace AutoMapper
 {
     class AutoMapperProfile : Profile
     {
+        /* Notes:
+         * - Destination's properties will be NULL if Source's object doesn't have these properties.
+         * - Destination's properties will be UNDEFINED if Source's object doesn't have these properties.
+         * - Properties mapping is case insensitive. (ex: "name" can also transfer value to "NAME").
+         */
         public AutoMapperProfile()
         {
-            //CreateMap<Employee, EmployeeViewModel>(); // ← Create map with matches properties
+            // -- Case 1: Create map with matches properties
+            //CreateMap<Employee, EmployeeViewModel>();
 
-            // In case we want to map un-matches properties we could do like this: (Checkout Employee, EmployeeViewModel. We have 2 un-matches properties)
+            // -- Case 2: Create map with un-matches properties: (Checkout Employee, EmployeeViewModel. We have 1 un-matches property, that's Name/FullName)
+            //CreateMap<Employee, EmployeeViewModel>()
+            //    .ForMember(dest => dest.FullName, act => act.MapFrom(src => src.Name))
+            //    .ForMember(dest => dest.GrossSalary, act => act.MapFrom(src => src.Salary));
+
+            // -- Case 3: Create map from "Complex type" to "Primitive type": 
             CreateMap<Employee, EmployeeViewModel>()
-                .ForMember(dest => dest.FullName, act => act.MapFrom(src => src.Name))
-                .ForMember(dest => dest.GrossSalary, act => act.MapFrom(src => src.Salary));
+            .ForMember(des => des.FullName, act => act.MapFrom(src => src.Name))
+            .ForMember(des => des.DepartName, act => act.MapFrom(src => src.Department.DeptName))
+            .ForMember(des => des.DepartAddress, act => act.MapFrom(src => src.Department.DeptAddress));
+            // Other matches properties will auto map, we just have to create map for un-match/custom properties.
         }
     }
 }

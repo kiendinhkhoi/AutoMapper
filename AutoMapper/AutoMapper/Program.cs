@@ -10,11 +10,6 @@ namespace AutoMapper
 {
     class Program
     {
-        /* Notes:
-         * - Destination's properties will be NULL if Source's object doesn't have these properties.
-         * - Destination's properties will be UNDEFINED if Source's object doesn't have these properties.
-         * - Properties mapping is case insensitive. (ex: "name" can also transfer value to "NAME").
-         */
         static void Main(string[] args)
         {
             // 1. Init Automapper
@@ -28,15 +23,26 @@ namespace AutoMapper
             Employee source = new Employee()
             {
                 Name = "Hello world!",
-                Salary = 100
+                Salary = 100,
+                Department = new Department()
+                {
+                    DeptName = "KDK",
+                    DeptAddress = "Vietnam"
+                }
             };
 
             // 3. Start transfer
             EmployeeViewModel employeeViewModel = mapper.Map<Employee, EmployeeViewModel>(source); // ← Transfer Employee to EmployeeViewModel, if your data can't transfer checkout the mapping profile
 
             // 4. Log result
-            Console.WriteLine($"Name: {employeeViewModel.FullName}\nSalary: {employeeViewModel.GrossSalary}\n---");
+            LogDetails(employeeViewModel);
             Console.ReadLine();
+        }
+
+        private static void LogDetails(EmployeeViewModel employee)
+        {
+            Console.WriteLine($"Name: {employee.FullName}\nSalary: {employee.Salary}\nDepartment: {employee.DepartName}\nDepartment Address: {employee.DepartAddress}");
+            Console.WriteLine($"Title: {employee.Title}\n"); // ← This will be blank(null) because source Employee doesn't have Title property
         }
     }
 }

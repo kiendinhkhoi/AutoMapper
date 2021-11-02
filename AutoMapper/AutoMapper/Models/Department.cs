@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace AutoMapper.Models
 {
-    class Employee
+    class Department
     {
-        public string Name { get; set; }
-        public int Salary { get; set; }
-        public Department Department { get; set; }
+        public string DeptName { get; set; }
+        public string DeptAddress { get; set; }
     }
 }
