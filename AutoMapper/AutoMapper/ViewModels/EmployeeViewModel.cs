@@ -8,8 +8,8 @@ namespace AutoMapper.ViewModels
 {
     class EmployeeViewModel
     {
-        public string Name { get; set; }
-        public int Salary { get; set; }
+        public string FullName { get; set; }
+        public int GrossSalary { get; set; }
         public string Title { get; set; }
     }
 }

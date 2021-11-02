@@ -12,8 +12,12 @@ namespace AutoMapper
     {
         public AutoMapperProfile()
         {
-            // Define mapping profile for object, you can define multiple here
-            CreateMap<Employee, EmployeeViewModel>();
+            //CreateMap<Employee, EmployeeViewModel>(); // ← Create map with matches properties
+
+            // In case we want to map un-matches properties we could do like this: (Checkout Employee, EmployeeViewModel. We have 2 un-matches properties)
+            CreateMap<Employee, EmployeeViewModel>()
+                .ForMember(dest => dest.FullName, act => act.MapFrom(src => src.Name))
+                .ForMember(dest => dest.GrossSalary, act => act.MapFrom(src => src.Salary));
         }
     }
 }
